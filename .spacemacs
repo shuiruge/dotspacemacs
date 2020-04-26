@@ -325,6 +325,7 @@ you should place your code here."
 
   ;; ---------------------------------------------------------------------------
   ;; -------------------- REMAPPING THE ESC KEY WITH KEYCHORD ------------------
+  (key-chord-mode 1)
   ;; Max time delay between two key presses to be considered a key chord
   (setq key-chord-two-keys-delay 0.05) ; default 0.1
   ;; Max time delay between two presses of the same key to be considered a key chord.
