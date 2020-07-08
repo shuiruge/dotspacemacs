@@ -39,7 +39,7 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     helm
+     ivy
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup nil
                       auto-completion-enable-help-tooltip t
@@ -340,6 +340,7 @@ you should place your code here."
   (setq kill-buffer-query-functions nil)
 
   ;; key-bindings
+  ;; TODO: Why not working?
   ;; (define-key python-mode-map [f5] 'run-python)
   ;; (define-key python-mode-map [f8] 'python-shell-send-buffer)
 
@@ -363,6 +364,8 @@ you should place your code here."
   ;; move
   (key-chord-define-global "gj"     'evil-scroll-page-down)
   (key-chord-define-global "gk"     'evil-scroll-page-up)
+  ;; shell
+  (key-chord-define-global "os"     'shell)
 
   ;; python-model
   ;; c.f. https://stackoverflow.com/a/23263217/1218716
