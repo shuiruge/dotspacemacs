@@ -65,6 +65,7 @@ values."
      ;; to install julia layer, first run in terminal: git clone https://github.com/marciogm/julia-layer ~/.emacs.d/private/julia
      ;; c.f. https://github.com/mgxm/julia-layer#install
      julia
+     haskell
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -368,6 +369,8 @@ you should place your code here."
   (key-chord-define-global "gk"     'evil-scroll-page-up)
   ;; shell
   (key-chord-define-global "os"     'shell)
+  ;; others
+  (key-chord-define-global "ja"     'evil-escape)
 
   ;; python-model
   ;; c.f. https://stackoverflow.com/a/23263217/1218716
