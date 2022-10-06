@@ -54,18 +54,11 @@ values."
             shell-default-height 30
             shell-default-position 'bottom)
      version-control
-     (python :variables
-             python-backend 'lsp
-             python-fill-column 99
-             python-formatter 'yapf
-             python-format-on-save t
-             python-sort-imports-on-save t
-             python-pipenv-activate t)
+     python
      scheme
-     ;; to install julia layer, first run in terminal: git clone https://github.com/marciogm/julia-layer ~/.emacs.d/private/julia
-     ;; c.f. https://github.com/mgxm/julia-layer#install
-     julia
      haskell
+     nixos
+     c-c++
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -150,7 +143,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 18
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -355,13 +348,13 @@ you should place your code here."
   ;; Max time delay between two presses of the same key to be considered a key chord.
   ;; Should normally be a little longer than `key-chord-two-keys-delay'.
   (setq key-chord-one-key-delay 0.01) ; default 0.2
-  ;;and some chords,
+
   ;; buffer
   (key-chord-define-global "bj"     'switch-to-buffer)
   (key-chord-define-global "js"     'save-buffer)
   ;; file
   (key-chord-define-global "fj"     'find-file)
-  (key-chord-define-global "fk"     'kill-buffer)
+  (key-chord-define-global "kb"     'kill-buffer)
   ;; window
   (key-chord-define-global "fo"     'other-window)
   ;; move
@@ -372,12 +365,23 @@ you should place your code here."
   ;; others
   (key-chord-define-global "ja"     'evil-escape)
 
-  ;; python-model
+  ;; python-mode
   ;; c.f. https://stackoverflow.com/a/23263217/1218716
   (add-hook 'python-mode-hook 
             (lambda () (key-chord-define python-mode-map "rp" 'run-python)))
   (add-hook 'python-mode-hook 
             (lambda () (key-chord-define python-mode-map "sb" 'python-shell-send-buffer)))
+
+  ;; shell-mode
+  (add-hook 'shell-mode-hook 
+            (lambda ()
+              (key-chord-define shell-mode-map
+                                "fk"
+                                (lambda ()
+                                  (interactive)
+                                  (insert "fuck")
+                                  (comint-send-input)))))
+
   ;; ---------------------------------------------------------------------------
   )
 
@@ -397,3 +401,22 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   '(tern julia-repl julia-mode flycheck-julia helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet helm helm-core geiser git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ dash git-gutter diff-hl company-quickhelp simpleclip xterm-color shell-pop multi-term flycheck-pos-tip pos-tip flycheck-haskell eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode csv-mode yaml-mode unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient company-statistics company-cabal company-anaconda auto-yasnippet ac-ispell auto-complete typit mmt sudoku pacmacs 2048-game powerline spinner hydra lv parent-mode flx key-chord yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode intero flycheck hy-mode dash-functional hlint-refactor hindent haskell-snippets yasnippet cython-mode company-ghci company-ghc ghc company haskell-mode cmm-mode anaconda-mode pythonic wgrep smex ivy-hydra counsel-projectile counsel swiper ivy ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+)
