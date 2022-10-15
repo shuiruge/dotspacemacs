@@ -353,13 +353,14 @@ you should place your code here."
   (key-chord-define-global "bj"     'switch-to-buffer)
   (key-chord-define-global "js"     'save-buffer)
   ;; file
-  (key-chord-define-global "fj"     'find-file)
+  (key-chord-define-global "fi"     'find-file)
   (key-chord-define-global "kb"     'kill-buffer)
   ;; window
   (key-chord-define-global "fo"     'other-window)
   ;; move
   (key-chord-define-global "gj"     'evil-scroll-page-down)
   (key-chord-define-global "gk"     'evil-scroll-page-up)
+  (key-chord-define-global "fj"     'comint-send-input)
   ;; shell
   (key-chord-define-global "os"     'shell)
   ;; others
@@ -371,16 +372,8 @@ you should place your code here."
             (lambda () (key-chord-define python-mode-map "rp" 'run-python)))
   (add-hook 'python-mode-hook 
             (lambda () (key-chord-define python-mode-map "sb" 'python-shell-send-buffer)))
-
-  ;; shell-mode
-  (add-hook 'shell-mode-hook 
-            (lambda ()
-              (key-chord-define shell-mode-map
-                                "fk"
-                                (lambda ()
-                                  (interactive)
-                                  (insert "fuck")
-                                  (comint-send-input)))))
+  (add-hook 'python-mode-hook 
+            (lambda () (key-chord-define python-mode-map "sr" 'python-shell-send-region)))
 
   ;; ---------------------------------------------------------------------------
   )
