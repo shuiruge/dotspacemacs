@@ -360,9 +360,9 @@ you should place your code here."
   ;; move
   (key-chord-define-global "gj"     'evil-scroll-page-down)
   (key-chord-define-global "gk"     'evil-scroll-page-up)
-  (key-chord-define-global "fj"     'comint-send-input)
+  (key-chord-define-global "fj"     'evil-ret-and-indent)
   ;; shell
-  (key-chord-define-global "os"     'shell)
+  (key-chord-define-global "os"     'eshell)
   ;; others
   (key-chord-define-global "ja"     'evil-escape)
 
@@ -374,6 +374,10 @@ you should place your code here."
             (lambda () (key-chord-define python-mode-map "sb" 'python-shell-send-buffer)))
   (add-hook 'python-mode-hook 
             (lambda () (key-chord-define python-mode-map "sr" 'python-shell-send-region)))
+
+  ;; eshell-mode
+  (add-hook 'eshell-mode-hook 
+            (lambda () (key-chord-define eshell-mode-map "fj" 'eshell-send-input)))
 
   ;; interact with the system clipboard
   (cond
