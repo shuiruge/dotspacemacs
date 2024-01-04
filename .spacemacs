@@ -60,6 +60,9 @@ values."
      agda
      nixos
      c-c++
+     (chinese :variables
+              chinese-use-fcitx5 t
+              chinese-enable-fcitx t)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -329,21 +332,13 @@ you should place your code here."
   ;; python encoding (for Windows)
   (setenv "PYTHONIOENCODING" "utf-8")
 
-  ;; copy/paste to/from outer environment
-  (xclip-mode 1)
-
   ;; kill buffer without confimation
   ;; c.f. https://emacs.stackexchange.com/a/46087
   (setq kill-buffer-query-functions nil)
 
-  ;; key-bindings
-  ;; TODO: Why not working?
-  ;; (define-key python-mode-map [f5] 'run-python)
-  ;; (define-key python-mode-map [f8] 'python-shell-send-buffer)
-
   ;; Eshell
-  (require 'dash)
-  (require 's)
+  ;(require 'dash)
+  ;(require 's)
 
   ;; ---------------------------------------------------------------------------
   ;; -------------------- REMAPPING THE ESC KEY WITH KEYCHORD ------------------
@@ -355,70 +350,61 @@ you should place your code here."
   (setq key-chord-one-key-delay 0.01) ; default 0.2
 
   ;; buffer
-  (key-chord-define-global "bj"     'switch-to-buffer)
-  (key-chord-define-global "js"     'save-buffer)
+  (key-chord-define-global "bl"     'switch-to-buffer)  ; Buffer List.
+  (key-chord-define-global "bs"     'save-buffer)
+  (key-chord-define-global "zi"     'text-scale-increase)  ; Zoom In.
+  (key-chord-define-global "zo"     'text-scale-decrease)  ; Zoom Out.
+  (key-chord-define-global "wr"     'visual-line-mode)  ; Word wRap.
+
   ;; file
-  (key-chord-define-global "fi"     'find-file)
+  (key-chord-define-global "fb"     'find-file)  ; Find Buffer.
   (key-chord-define-global "kb"     'kill-buffer)
+
   ;; window
-  (key-chord-define-global "fo"     'other-window)
+  (key-chord-define-global "ow"     'other-window)
+
   ;; move
-  (key-chord-define-global "gj"     'evil-scroll-page-down)
-  (key-chord-define-global "gk"     'evil-scroll-page-up)
-  (key-chord-define-global "fj"     'evil-ret-and-indent)
+  (key-chord-define-global "gl"     'goto-line)
+  (key-chord-define-global "gp"     'goto-last-change)  ; Goto Previous.
+  (key-chord-define-global "fw"     'forward-word)
+  (key-chord-define-global "bw"     'backward-word)
+
+  ;; search
+  (key-chord-define-global "sf"     'isearch-forward-regexp)  ; Search Forward.
+  (key-chord-define-global "sb"     'isearch-backward-regexp)
+
+  ;; scrolling
+  (key-chord-define-global "sd"     'evil-scroll-page-down)  ; Scroll Down.
+  (key-chord-define-global "su"     'evil-scroll-page-up)  ; Scroll Up.
+
+  ;; edit
+  (key-chord-define-global "ud"     'undo)
+  (key-chord-define-global "ur"     'undo-redo)
+  (key-chord-define-global "cl"     'copy-rest-line)
+  (key-chord-define-global "yl"     'yank-new-line)
+  (key-chord-define-global "dl"     'duplicate-line)
+  (key-chord-define-global "em"     'kmacro-end-and-call-macro)  ; Execute Macro.
+  (key-chord-define-global "sm"     'set-mark-command)  ; Set Mark.
+  (key-chord-define-global "rm"     'exchange-point-and-mark)  ; Return to Mark.
+
   ;; shell
-  (key-chord-define-global "os"     'eshell)
+  (key-chord-define-global "es"     'eshell)
+
   ;; others
-  (key-chord-define-global "ja"     'evil-escape)
+  (key-chord-define-global "r "     'evil-ret-and-indent)  ; Return.
+  (key-chord-define-global "e "     'evil-force-normal-state)  ; Escape.
 
-  ;; python-mode
-  ;; c.f. https://stackoverflow.com/a/23263217/1218716
-  (add-hook 'python-mode-hook 
-            (lambda () (key-chord-define python-mode-map "rp" 'run-python)))
-  (add-hook 'python-mode-hook 
-            (lambda () (key-chord-define python-mode-map "sb" 'python-shell-send-buffer)))
-  (add-hook 'python-mode-hook 
-            (lambda () (key-chord-define python-mode-map "sr" 'python-shell-send-region)))
+  ;; emacs
+  (key-chord-define-global "mx"     'execute-extended-command)  ; the M-x.
+  (key-chord-define-global "ua"     'universal-argument)  ; the C-u.
 
-  ;; eshell-mode
-  (add-hook 'eshell-mode-hook 
-            (lambda () (key-chord-define eshell-mode-map "fj" 'eshell-send-input)))
-
-  ;; interact with the system clipboard
-  (cond
-    ;; OS X
-    ((string-equal system-type "darwin") ; Mac OS X
-     (progn
-       (setq save-to-clipboard-cmd "pbcopy")
-       (setq paste-from-clipboard-cmd "pbpaste")))
-    ;; Linux
-    ((string-equal system-type "gnu/linux") ; linux
-     (progn
-       (setq save-to-clipboard-cmd "xsel -i -b")
-       (setq paste-from-clipboard-cmd "xsel -o -b"))))  
-  (defun copy-to-clipboard ()
-    "Copies selection to x-clipboard."
-    (interactive)
-    (if (display-graphic-p)
-        (progn
-          (message "Yanked region to x-clipboard!")
-          (call-interactively 'clipboard-kill-ring-save))
-      (if (region-active-p)
-          (progn
-            (shell-command-on-region (region-beginning) (region-end) save-to-clipboard-cmd)
-            (message "Yanked region to clipboard!")
-            (deactivate-mark))
-        (message "No region active; can't yank to clipboard!"))))
-  (defun paste-from-clipboard ()
-    "Pastes from x-clipboard."
-    (interactive)
-    (if (display-graphic-p)
-        (progn
-          (clipboard-yank)
-          (message "graphics active"))
-      (insert (shell-command-to-string paste-from-clipboard-cmd))))
-  (evil-leader/set-key "o y" 'copy-to-clipboard)
-  (evil-leader/set-key "o p" 'paste-from-clipboard)
+  ;; Python
+  (add-hook 'python-mode-hook 
+    (lambda () (key-chord-define python-mode-map "pb" 'python-shell-send-buffer)))  ; Python run Buffer.
+  (add-hook 'python-mode-hook 
+    (lambda () (key-chord-define python-mode-map "pr" 'python-shell-send-region)))  ; Python run Region.
+  (add-hook 'python-mode-hook 
+    (lambda () (key-chord-define python-mode-map "ps" 'python-shell-send-statement)))  ; Python run Statement.
 
   ;; ---------------------------------------------------------------------------
   )
