@@ -60,6 +60,7 @@ values."
      agda
      nixos
      c-c++
+     julia
      (chinese :variables
               chinese-use-fcitx5 t
               chinese-enable-fcitx t)
@@ -315,10 +316,12 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; package mirror
- (setq configuration-layer--elpa-archives
-      '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-        ("org-cn"   . "http://elpa.emacs-china.org/org/")
-        ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
+  (setq configuration-layer--elpa-archives
+    '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+
+  (setq dotspacemacs-scroll-bar-while-scrolling nil)
   )
 
 (defun dotspacemacs/user-config ()
@@ -355,6 +358,7 @@ you should place your code here."
   (key-chord-define-global "zi"     'text-scale-increase)  ; Zoom In.
   (key-chord-define-global "zo"     'text-scale-decrease)  ; Zoom Out.
   (key-chord-define-global "wr"     'visual-line-mode)  ; Word wRap.
+  (key-chord-define-global "sc"     'ispell-buffer)  ; Spell-Check.
 
   ;; file
   (key-chord-define-global "fb"     'find-file)  ; Find Buffer.
@@ -389,10 +393,6 @@ you should place your code here."
 
   ;; shell
   (key-chord-define-global "es"     'eshell)
-
-  ;; others
-  (key-chord-define-global "r "     'evil-ret-and-indent)  ; Return.
-  (key-chord-define-global "e "     'evil-force-normal-state)  ; Escape.
 
   ;; emacs
   (key-chord-define-global "mx"     'execute-extended-command)  ; the M-x.
