@@ -45,6 +45,7 @@ values."
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
                       auto-completion-private-snippets-directory nil)
+     syntax-checking
      better-defaults
      emacs-lisp
      git
@@ -57,9 +58,10 @@ values."
      python
      scheme
      haskell
-     agda
+     ;;agda
      nixos
-     c-c++
+     (c-c++ :variables
+            c-c++-enable-clang-support t)
      julia
      (chinese :variables
               chinese-use-fcitx5 t
@@ -347,7 +349,7 @@ you should place your code here."
   ;; -------------------- REMAPPING THE ESC KEY WITH KEYCHORD ------------------
   (key-chord-mode 1)
   ;; Max time delay between two key presses to be considered a key chord
-  (setq key-chord-two-keys-delay 0.05) ; default 0.1
+  (setq key-chord-two-keys-delay 0.02) ; default 0.1
   ;; Max time delay between two presses of the same key to be considered a key chord.
   ;; Should normally be a little longer than `key-chord-two-keys-delay'.
   (setq key-chord-one-key-delay 0.01) ; default 0.2
@@ -436,7 +438,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(tern xclip julia-repl julia-mode flycheck-julia helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet helm helm-core geiser git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ dash git-gutter diff-hl company-quickhelp simpleclip xterm-color shell-pop multi-term flycheck-pos-tip pos-tip flycheck-haskell eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode csv-mode yaml-mode unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient company-statistics company-cabal company-anaconda auto-yasnippet ac-ispell auto-complete typit mmt sudoku pacmacs 2048-game powerline spinner hydra lv parent-mode flx key-chord yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode intero flycheck hy-mode dash-functional hlint-refactor hindent haskell-snippets yasnippet cython-mode company-ghci company-ghc ghc company haskell-mode cmm-mode anaconda-mode pythonic wgrep smex ivy-hydra counsel-projectile counsel swiper ivy ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+   '(tern julia-repl julia-mode flycheck-julia helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet helm helm-core geiser git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ dash git-gutter diff-hl company-quickhelp simpleclip xterm-color shell-pop multi-term flycheck-pos-tip pos-tip flycheck-haskell eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode csv-mode yaml-mode unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient company-statistics company-cabal company-anaconda auto-yasnippet ac-ispell auto-complete typit mmt sudoku pacmacs 2048-game powerline spinner hydra lv parent-mode flx key-chord yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode intero flycheck hy-mode dash-functional hlint-refactor hindent haskell-snippets yasnippet cython-mode company-ghci company-ghc ghc company haskell-mode cmm-mode anaconda-mode pythonic wgrep smex ivy-hydra counsel-projectile counsel swiper ivy ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
