@@ -143,8 +143,8 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light)
+   dotspacemacs-themes '(leuven-dark
+                         leuven)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
@@ -345,11 +345,52 @@ you should place your code here."
   ;(require 'dash)
   ;(require 's)
 
+  ;; IAST input method
+  (quail-define-package
+    "iast-postfix" "UTF-8" "InR<" t
+    "Input method for Indic transliteration with postfix modifiers.
+  
+       Long vowels are dealt with by doubling.
+  
+       |                  | postfix | examples             |
+       |------------------+---------+----------------------|
+       | macron           |         | aa  -> ā    ee  -> ē |
+       | diacritic below  | .       | d.  -> ḍ    rr. -> ṝ |
+       | diacritic above  | '       | s'  -> ś    n'  -> ṅ |
+       | tilde            | ~       | n~  -> ñ             |
+    "
+    nil t nil nil nil nil nil nil nil nil t)
+  
+  (quail-define-rules
+    ;; long vowels
+    ("aa" "ā")
+    ("ii" "ī")
+    ("uu" "ū")
+    ("rr." "ṝ")
+    ("ee" "ē")
+    ("oo" "ō")
+  
+    ;; dot below
+    ("r." "ṛ")
+    ("l." "ḷ")
+    ("m." "ṃ")
+    ("h." "ḥ")
+    ("t." "ṭ")
+    ("d." "ḍ")
+    ("n." "ṇ")
+    ("s." "ṣ")
+    
+    ;; diacritic above
+    ("n'" "ṅ")
+    ("s'" "ś")
+    ("n~" "ñ")
+  )
+
   ;; ---------------------------------------------------------------------------
   ;; -------------------- REMAPPING THE ESC KEY WITH KEYCHORD ------------------
   (key-chord-mode 1)
   ;; Max time delay between two key presses to be considered a key chord
-  (setq key-chord-two-keys-delay 0.02) ; default 0.1
+  (setq key-chord-two-keys-delay 0.04) ; default 0.1
   ;; Max time delay between two presses of the same key to be considered a key chord.
   ;; Should normally be a little longer than `key-chord-two-keys-delay'.
   (setq key-chord-one-key-delay 0.01) ; default 0.2
