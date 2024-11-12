@@ -30,7 +30,13 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(ruby
+   '((html :variables
+           web-mode-markup-indent-offset 2
+           web-mode-code-indent-offset 2
+           web-mode-css-indent-offset 2
+           web-mode-sql-indent-offset 2
+           )
+     ruby
      javascript
      csv
      yaml
