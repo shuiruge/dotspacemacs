@@ -347,6 +347,12 @@ you should place your code here."
   ;; c.f. https://emacs.stackexchange.com/a/46087
   (setq kill-buffer-query-functions nil)
 
+  ;; Disable smart tab:
+  ;; Originally, typing "TAB" calls `indent-for-tab-command`. It automatically
+  ;; adjust tabs which may not what I want. So, I prefer calling `tab-to-tab-
+  ;; stop`, which is just input the corresponding number of spaces.
+  (global-set-key (kbd "TAB") 'tab-to-tab-stop)
+
   ;; Eshell
   ;(require 'dash)
   ;(require 's)
