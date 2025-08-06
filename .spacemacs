@@ -47,10 +47,12 @@ values."
      ;; ----------------------------------------------------------------
      ivy
      (auto-completion :variables
-                      auto-completion-enable-snippets-in-popup nil
+                      auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
                       auto-completion-enable-sort-by-usage t
-                      auto-completion-private-snippets-directory nil)
+                      auto-completion-private-snippets-directory nil
+                      auto-completion-enable-sort-by-usage t
+                      )
      syntax-checking
      better-defaults
      emacs-lisp
@@ -516,6 +518,9 @@ you should place your code here."
   (key-chord-define-global "mx"     'execute-extended-command)  ; the M-x.
   (key-chord-define-global "ua"     'universal-argument)  ; the C-u.
 
+  ;; html
+  (key-chord-define-global "it"     'emmet-expand-line)  ; Insert tag.
+
   ;; Python
   (add-hook 'python-mode-hook 
     (lambda () (key-chord-define python-mode-map "pb" 'python-shell-send-buffer)))  ; Python run Buffer.
@@ -554,7 +559,47 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(tern julia-repl julia-mode flycheck-julia helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet helm helm-core geiser git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ dash git-gutter diff-hl company-quickhelp simpleclip xterm-color shell-pop multi-term flycheck-pos-tip pos-tip flycheck-haskell eshell-z eshell-prompt-extras esh-help web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode csv-mode yaml-mode unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient company-statistics company-cabal company-anaconda auto-yasnippet ac-ispell auto-complete typit mmt sudoku pacmacs 2048-game powerline spinner hydra lv parent-mode flx key-chord yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode intero flycheck hy-mode dash-functional hlint-refactor hindent haskell-snippets yasnippet cython-mode company-ghci company-ghc ghc company haskell-mode cmm-mode anaconda-mode pythonic wgrep smex ivy-hydra counsel-projectile counsel swiper ivy ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+   '(2048-game ac-ispell ace-jump-helm-line ace-link ace-window adaptive-wrap
+               aggressive-indent alert anaconda-mode auto-compile auto-complete
+               auto-highlight-symbol auto-yasnippet clean-aindent-mode cmm-mode
+               coffee-mode column-enforce-mode company company-anaconda
+               company-cabal company-ghc company-ghci company-quickhelp
+               company-statistics counsel counsel-projectile csv-mode
+               cython-mode dash dash-functional define-word diff-hl diminish
+               dumb-jump elisp-slime-nav esh-help eshell-prompt-extras eshell-z
+               eval-sexp-fu evil-anzu evil-args evil-ediff evil-escape
+               evil-exchange evil-iedit-state evil-indent-plus evil-lisp-state
+               evil-magit evil-matchit evil-mc evil-nerd-commenter evil-numbers
+               evil-search-highlight-persist evil-surround evil-tutor
+               evil-unimpaired evil-visual-mark-mode evil-visualstar
+               exec-path-from-shell expand-region eyebrowse fancy-battery
+               fill-column-indicator flx flx-ido flycheck flycheck-haskell
+               flycheck-julia flycheck-pos-tip fringe-helper fuzzy geiser gh-md
+               ghc git-commit git-gutter git-gutter+ git-gutter-fringe
+               git-gutter-fringe+ git-link git-messenger git-timemachine
+               gitattributes-mode gitconfig-mode gitignore-mode gntp gnuplot
+               golden-ratio google-translate haskell-mode haskell-snippets helm
+               helm-ag helm-c-yasnippet helm-company helm-core helm-descbinds
+               helm-flx helm-gitignore helm-hoogle helm-make helm-mode-manager
+               helm-projectile helm-pydoc helm-swoop helm-themes
+               highlight-indentation highlight-numbers highlight-parentheses
+               hindent hl-todo hlint-refactor htmlize hungry-delete hy-mode
+               hydra indent-guide intero ivy ivy-hydra js-doc js2-mode
+               js2-refactor json-mode json-reformat json-snatcher julia-mode
+               julia-repl key-chord link-hint linum-relative live-py-mode
+               livid-mode log4e lorem-ipsum lv macrostep magit magit-gitflow
+               magit-popup markdown-mode markdown-toc mmm-mode mmt move-text
+               multi-term multiple-cursors mwim neotree open-junk-file
+               org-bullets org-category-capture org-download org-mime
+               org-plus-contrib org-pomodoro org-present org-projectile orgit
+               pacmacs paradox parent-mode pcre2el persp-mode pip-requirements
+               popwin pos-tip powerline py-isort pyenv-mode pytest pythonic
+               pyvenv rainbow-delimiters request restart-emacs shell-pop
+               simple-httpd simpleclip skewer-mode smeargle smex spaceline
+               spinner sudoku swiper tern toc-org transient typit unfill
+               use-package uuidgen vi-tilde-fringe volatile-highlights
+               web-beautify wgrep which-key winum with-editor ws-butler
+               xterm-color yaml-mode yapfify yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
