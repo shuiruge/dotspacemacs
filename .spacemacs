@@ -30,7 +30,9 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '((html :variables
+   '(
+     (html :variables
+           indent-tabs-mode nil
            web-mode-markup-indent-offset 2
            web-mode-code-indent-offset 2
            web-mode-css-indent-offset 2
@@ -566,24 +568,25 @@ This function is called at the very end of Spacemacs initialization."
                company-cabal company-ghc company-ghci company-quickhelp
                company-statistics counsel counsel-projectile csv-mode
                cython-mode dash dash-functional define-word diff-hl diminish
-               dumb-jump elisp-slime-nav esh-help eshell-prompt-extras eshell-z
-               eval-sexp-fu evil-anzu evil-args evil-ediff evil-escape
-               evil-exchange evil-iedit-state evil-indent-plus evil-lisp-state
-               evil-magit evil-matchit evil-mc evil-nerd-commenter evil-numbers
-               evil-search-highlight-persist evil-surround evil-tutor
-               evil-unimpaired evil-visual-mark-mode evil-visualstar
-               exec-path-from-shell expand-region eyebrowse fancy-battery
-               fill-column-indicator flx flx-ido flycheck flycheck-haskell
-               flycheck-julia flycheck-pos-tip fringe-helper fuzzy geiser gh-md
-               ghc git-commit git-gutter git-gutter+ git-gutter-fringe
-               git-gutter-fringe+ git-link git-messenger git-timemachine
-               gitattributes-mode gitconfig-mode gitignore-mode gntp gnuplot
-               golden-ratio google-translate haskell-mode haskell-snippets helm
-               helm-ag helm-c-yasnippet helm-company helm-core helm-descbinds
-               helm-flx helm-gitignore helm-hoogle helm-make helm-mode-manager
-               helm-projectile helm-pydoc helm-swoop helm-themes
-               highlight-indentation highlight-numbers highlight-parentheses
-               hindent hl-todo hlint-refactor htmlize hungry-delete hy-mode
+               dumb-jump edit-server elisp-slime-nav esh-help
+               eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu evil-args
+               evil-ediff evil-escape evil-exchange evil-iedit-state
+               evil-indent-plus evil-lisp-state evil-magit evil-matchit evil-mc
+               evil-nerd-commenter evil-numbers evil-search-highlight-persist
+               evil-surround evil-tutor evil-unimpaired evil-visual-mark-mode
+               evil-visualstar exec-path-from-shell expand-region eyebrowse
+               fancy-battery fill-column-indicator flx flx-ido flycheck
+               flycheck-haskell flycheck-julia flycheck-pos-tip flymd
+               fringe-helper fuzzy geiser gh-md ghc git-commit git-gutter
+               git-gutter+ git-gutter-fringe git-gutter-fringe+ git-link
+               git-messenger git-timemachine gitattributes-mode gitconfig-mode
+               gitignore-mode gntp gnuplot golden-ratio google-translate
+               haskell-mode haskell-snippets helm helm-ag helm-c-yasnippet
+               helm-company helm-core helm-descbinds helm-flx helm-gitignore
+               helm-hoogle helm-make helm-mode-manager helm-projectile
+               helm-pydoc helm-swoop helm-themes highlight-indentation
+               highlight-numbers highlight-parentheses hindent hl-todo
+               hlint-refactor html-to-markdown htmlize hungry-delete hy-mode
                hydra indent-guide intero ivy ivy-hydra js-doc js2-mode
                js2-refactor json-mode json-reformat json-snatcher julia-mode
                julia-repl key-chord link-hint linum-relative live-py-mode
@@ -596,10 +599,10 @@ This function is called at the very end of Spacemacs initialization."
                popwin pos-tip powerline py-isort pyenv-mode pytest pythonic
                pyvenv rainbow-delimiters request restart-emacs shell-pop
                simple-httpd simpleclip skewer-mode smeargle smex spaceline
-               spinner sudoku swiper tern toc-org transient typit unfill
-               use-package uuidgen vi-tilde-fringe volatile-highlights
-               web-beautify wgrep which-key winum with-editor ws-butler
-               xterm-color yaml-mode yapfify yasnippet)))
+               spinner sudoku swiper toc-org transient typit unfill use-package
+               uuidgen vi-tilde-fringe volatile-highlights web-beautify wgrep
+               which-key winum with-editor ws-butler xterm-color yaml-mode
+               yapfify yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
