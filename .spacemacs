@@ -60,6 +60,7 @@ values."
      emacs-lisp
      git
      markdown
+     latex
      org
      (shell :variables
             shell-default-height 30
@@ -336,9 +337,9 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; package mirror
   (setq configuration-layer--elpa-archives
-    '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+    '(("melpa-cn" . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
+      ("org-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
+      ("gnu-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")))
 
   (setq dotspacemacs-scroll-bar-while-scrolling nil)
   )
@@ -562,47 +563,46 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(2048-game ac-ispell ace-jump-helm-line ace-link ace-window adaptive-wrap
-               aggressive-indent alert anaconda-mode auto-compile auto-complete
-               auto-highlight-symbol auto-yasnippet clean-aindent-mode cmm-mode
-               coffee-mode column-enforce-mode company company-anaconda
-               company-cabal company-ghc company-ghci company-quickhelp
-               company-statistics counsel counsel-projectile csv-mode
-               cython-mode dash dash-functional define-word diff-hl diminish
-               dumb-jump edit-server elisp-slime-nav esh-help
-               eshell-prompt-extras eshell-z eval-sexp-fu evil-anzu evil-args
-               evil-ediff evil-escape evil-exchange evil-iedit-state
-               evil-indent-plus evil-lisp-state evil-magit evil-matchit evil-mc
-               evil-nerd-commenter evil-numbers evil-search-highlight-persist
-               evil-surround evil-tutor evil-unimpaired evil-visual-mark-mode
-               evil-visualstar exec-path-from-shell expand-region eyebrowse
-               fancy-battery fill-column-indicator flx flx-ido flycheck
-               flycheck-haskell flycheck-julia flycheck-pos-tip flymd
-               fringe-helper fuzzy geiser gh-md ghc git-commit git-gutter
-               git-gutter+ git-gutter-fringe git-gutter-fringe+ git-link
-               git-messenger git-timemachine gitattributes-mode gitconfig-mode
-               gitignore-mode gntp gnuplot golden-ratio google-translate
-               haskell-mode haskell-snippets helm helm-ag helm-c-yasnippet
-               helm-company helm-core helm-descbinds helm-flx helm-gitignore
-               helm-hoogle helm-make helm-mode-manager helm-projectile
-               helm-pydoc helm-swoop helm-themes highlight-indentation
-               highlight-numbers highlight-parentheses hindent hl-todo
-               hlint-refactor html-to-markdown htmlize hungry-delete hy-mode
+               aggressive-indent alert anaconda-mode auctex auto-compile
+               auto-complete auto-highlight-symbol auto-yasnippet
+               clean-aindent-mode cmm-mode coffee-mode column-enforce-mode
+               company company-anaconda company-cabal company-ghc company-ghci
+               company-quickhelp company-statistics counsel counsel-projectile
+               csv-mode cython-mode dash dash-functional define-word diff-hl
+               diminish dumb-jump elisp-slime-nav esh-help eshell-prompt-extras
+               eshell-z eval-sexp-fu evil-anzu evil-args evil-ediff evil-escape
+               evil-exchange evil-iedit-state evil-indent-plus evil-lisp-state
+               evil-magit evil-matchit evil-mc evil-nerd-commenter evil-numbers
+               evil-search-highlight-persist evil-surround evil-tutor
+               evil-unimpaired evil-visual-mark-mode evil-visualstar
+               exec-path-from-shell expand-region eyebrowse fancy-battery
+               fill-column-indicator flx flx-ido flycheck flycheck-haskell
+               flycheck-julia flycheck-pos-tip fringe-helper fuzzy geiser gh-md
+               ghc git-commit git-gutter git-gutter+ git-gutter-fringe
+               git-gutter-fringe+ git-link git-messenger git-timemachine
+               gitattributes-mode gitconfig-mode gitignore-mode gntp gnuplot
+               golden-ratio google-translate haskell-mode haskell-snippets helm
+               helm-ag helm-c-yasnippet helm-company helm-core helm-descbinds
+               helm-flx helm-gitignore helm-hoogle helm-make helm-mode-manager
+               helm-projectile helm-pydoc helm-swoop helm-themes
+               highlight-indentation highlight-numbers highlight-parentheses
+               hindent hl-todo hlint-refactor htmlize hungry-delete hy-mode
                hydra indent-guide intero ivy ivy-hydra js-doc js2-mode
                js2-refactor json-mode json-reformat json-snatcher julia-mode
                julia-repl key-chord link-hint linum-relative live-py-mode
                livid-mode log4e lorem-ipsum lv macrostep magit magit-gitflow
-               magit-popup markdown-mode markdown-toc mmm-mode mmt move-text
-               multi-term multiple-cursors mwim neotree open-junk-file
-               org-bullets org-category-capture org-download org-mime
-               org-plus-contrib org-pomodoro org-present org-projectile orgit
-               pacmacs paradox parent-mode pcre2el persp-mode pip-requirements
-               popwin pos-tip powerline py-isort pyenv-mode pytest pythonic
-               pyvenv rainbow-delimiters request restart-emacs shell-pop
-               simple-httpd simpleclip skewer-mode smeargle smex spaceline
-               spinner sudoku swiper toc-org transient typit unfill use-package
-               uuidgen vi-tilde-fringe volatile-highlights web-beautify wgrep
-               which-key winum with-editor ws-butler xterm-color yaml-mode
-               yapfify yasnippet)))
+               magit-popup markdown-mode markdown-toc math-symbol-lists mmm-mode
+               mmt move-text multi-term multiple-cursors mwim neotree
+               open-junk-file org-bullets org-category-capture org-download
+               org-mime org-plus-contrib org-pomodoro org-present org-projectile
+               orgit pacmacs paradox parent-mode pcre2el persp-mode
+               pip-requirements popwin pos-tip powerline py-isort pyenv-mode
+               pytest pythonic pyvenv rainbow-delimiters request restart-emacs
+               shell-pop simple-httpd simpleclip skewer-mode smeargle smex
+               spaceline spinner sudoku swiper toc-org transient typit unfill
+               use-package uuidgen vi-tilde-fringe volatile-highlights
+               web-beautify wgrep which-key winum with-editor ws-butler
+               xterm-color yaml-mode yapfify yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
