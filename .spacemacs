@@ -46,7 +46,7 @@ values."
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
+     ; ----------------------------------------------------------------
      ivy
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
@@ -87,7 +87,12 @@ values."
    '(
      key-chord
      xclip
-     ellama
+     gptel
+     (mcp
+       :ensure t
+       :after gptel
+       :config (require 'mcp-hub)
+       :hook (after-init . mcp-hub-start-all-server))
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -336,10 +341,10 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; package mirror
-  (setq configuration-layer--elpa-archives
-    '(("melpa-cn" . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
-      ("org-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
-      ("gnu-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")))
+  ;;(setq configuration-layer--elpa-archives
+  ;;  '(("melpa-cn" . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
+  ;;    ("org-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
+  ;;    ("gnu-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")))
 
   (setq dotspacemacs-scroll-bar-while-scrolling nil)
   )
@@ -351,6 +356,9 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  ;; wrap lines by default
+  (global-visual-line-mode 1)
 
   ;; python encoding (for Windows)
   (setenv "PYTHONIOENCODING" "utf-8")
@@ -410,62 +418,35 @@ you should place your code here."
     ("~n" "ñ")
   )
 
-  ;; LLM
-  (use-package ellama
-    :ensure t
-    :bind ("C-c e" . ellama-transient-main-menu)
-    :init
-    ;; setup key bindings
-    ;; (setopt ellama-keymap-prefix "C-c e")
-    ;; language you want ellama to translate to
-    (setopt ellama-language "German")
-    ;; could be llm-openai for example
-    (require 'llm-ollama)
-    (setopt ellama-provider
-    	  (make-llm-ollama
-    	   ;; this model should be pulled to use it
-    	   ;; value should be the same as you print in terminal during pull
-    	   :chat-model "llama3.2:3b"
-    	   :embedding-model "nomic-embed-text"
-    	   :default-chat-non-standard-params '(("num_ctx" . 8192))))
-    (setopt ellama-summarization-provider
-    	  (make-llm-ollama
-    	   :chat-model "qwen2.5:3b"
-    	   :embedding-model "nomic-embed-text"
-    	   :default-chat-non-standard-params '(("num_ctx" . 32768))))
-    (setopt ellama-coding-provider
-    	  (make-llm-ollama
-    	   :chat-model "qwen2.5-coder:3b"
-    	   :embedding-model "nomic-embed-text"
-    	   :default-chat-non-standard-params '(("num_ctx" . 32768))))
-    ;; Naming new sessions with llm
-    (setopt ellama-naming-provider
-    	  (make-llm-ollama
-    	   :chat-model "llama3.2:3b"
-    	   :embedding-model "nomic-embed-text"
-    	   :default-chat-non-standard-params '(("stop" . ("\n")))))
-    (setopt ellama-naming-scheme 'ellama-generate-name-by-llm)
-    ;; Translation llm provider
-    (setopt ellama-translation-provider
-    	  (make-llm-ollama
-    	   :chat-model "qwen2.5:3b"
-    	   :embedding-model "nomic-embed-text"
-    	   :default-chat-non-standard-params
-    	   '(("num_ctx" . 32768))))
-    (setopt ellama-extraction-provider (make-llm-ollama
-    				      :chat-model "qwen2.5-coder:7b-instruct-q8_0"
-    				      :embedding-model "nomic-embed-text"
-    				      :default-chat-non-standard-params
-    				      '(("num_ctx" . 32768))))
-    ;; customize display buffer behaviour
-    ;; see ~(info "(elisp) Buffer Display Action Functions")~
-    (setopt ellama-chat-display-action-function #'display-buffer-full-frame)
-    (setopt ellama-instant-display-action-function #'display-buffer-at-bottom)
-    :config
-    ;; send last message in chat buffer with C-c C-c
-    (add-hook 'org-ctrl-c-ctrl-c-hook #'ellama-chat-send-last-message)
-    )
-
+  ;; --- LLM ---
+  ;; gptel
+  (setq gptel-backend
+        (gptel-make-ollama "Ollama"
+          :host "localhost:11434"
+          :stream t
+          :models '("gemma4:e2b")))
+  (setq gptel-model "gemma4:e2b")
+  ;; opencode
+  ;;(load-file "~/.emacs.d/private/opencode/opencode.el")
+  (load-file "~/Codes/opencode.el/opencode.el")
+  (require 'opencode)
+  ;; mcp
+  (setq mcp-hub-servers
+      '(("filesystem" . (:command "npx"
+                         :args ("-y" "@modelcontextprotocol/server-filesystem")
+                         :roots ("/home/shuiruge/MCP/")))
+        ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+        ("qdrant" . (:url "http://localhost:8000/sse"))
+        ("graphlit" . (
+                        :command "npx"
+                        :args ("-y" "graphlit-mcp-server")
+                        :env (
+                              :GRAPHLIT_ORGANIZATION_ID "my-organization-id"
+                              :GRAPHLIT_ENVIRONMENT_ID "m-environment-id"
+                              :GRAPHLIT_JWT_SECRET "my-jwt-secret")))))
+  ;; use mcp in gptel
+  (require 'gptel-integrations)
+  
   ;; ---------------------------------------------------------------------------
   ;; -------------------- REMAPPING THE ESC KEY WITH KEYCHORD ------------------
   (key-chord-mode 1)
@@ -533,7 +514,7 @@ you should place your code here."
     (lambda () (key-chord-define python-mode-map "ps" 'python-shell-send-statement)))  ; Python run Statement.
 
   ;; ---------------------------------------------------------------------------
-  )
+)
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -563,14 +544,14 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    '(2048-game ac-ispell ace-jump-helm-line ace-link ace-window adaptive-wrap
-               aggressive-indent alert anaconda-mode auctex auto-compile
-               auto-complete auto-highlight-symbol auto-yasnippet
-               clean-aindent-mode cmm-mode coffee-mode column-enforce-mode
-               company company-anaconda company-cabal company-ghc company-ghci
-               company-quickhelp company-statistics counsel counsel-projectile
-               csv-mode cython-mode dash dash-functional define-word diff-hl
-               diminish dumb-jump elisp-slime-nav esh-help eshell-prompt-extras
-               eshell-z eval-sexp-fu evil-anzu evil-args evil-ediff evil-escape
+               aggressive-indent alert anaconda-mode auto-compile auto-complete
+               auto-highlight-symbol auto-yasnippet clean-aindent-mode cmm-mode
+               coffee-mode column-enforce-mode company company-anaconda
+               company-cabal company-ghc company-ghci company-quickhelp
+               company-statistics compat counsel counsel-projectile csv-mode
+               cython-mode dash dash-functional define-word diff-hl diminish
+               dumb-jump elisp-slime-nav esh-help eshell-prompt-extras eshell-z
+               eval-sexp-fu evil-anzu evil-args evil-ediff evil-escape
                evil-exchange evil-iedit-state evil-indent-plus evil-lisp-state
                evil-magit evil-matchit evil-mc evil-nerd-commenter evil-numbers
                evil-search-highlight-persist evil-surround evil-tutor
@@ -581,28 +562,29 @@ This function is called at the very end of Spacemacs initialization."
                ghc git-commit git-gutter git-gutter+ git-gutter-fringe
                git-gutter-fringe+ git-link git-messenger git-timemachine
                gitattributes-mode gitconfig-mode gitignore-mode gntp gnuplot
-               golden-ratio google-translate haskell-mode haskell-snippets helm
-               helm-ag helm-c-yasnippet helm-company helm-core helm-descbinds
-               helm-flx helm-gitignore helm-hoogle helm-make helm-mode-manager
-               helm-projectile helm-pydoc helm-swoop helm-themes
-               highlight-indentation highlight-numbers highlight-parentheses
-               hindent hl-todo hlint-refactor htmlize hungry-delete hy-mode
-               hydra indent-guide intero ivy ivy-hydra js-doc js2-mode
-               js2-refactor json-mode json-reformat json-snatcher julia-mode
-               julia-repl key-chord link-hint linum-relative live-py-mode
-               livid-mode log4e lorem-ipsum lv macrostep magit magit-gitflow
-               magit-popup markdown-mode markdown-toc math-symbol-lists mmm-mode
-               mmt move-text multi-term multiple-cursors mwim neotree
-               open-junk-file org-bullets org-category-capture org-download
-               org-mime org-plus-contrib org-pomodoro org-present org-projectile
-               orgit pacmacs paradox parent-mode pcre2el persp-mode
-               pip-requirements popwin pos-tip powerline py-isort pyenv-mode
-               pytest pythonic pyvenv rainbow-delimiters request restart-emacs
-               shell-pop simple-httpd simpleclip skewer-mode smeargle smex
-               spaceline spinner sudoku swiper toc-org transient typit unfill
-               use-package uuidgen vi-tilde-fringe volatile-highlights
-               web-beautify wgrep which-key winum with-editor ws-butler
-               xterm-color yaml-mode yapfify yasnippet)))
+               golden-ratio google-translate gptel-agent haskell-mode
+               haskell-snippets helm helm-ag helm-c-yasnippet helm-company
+               helm-core helm-descbinds helm-flx helm-gitignore helm-hoogle
+               helm-make helm-mode-manager helm-projectile helm-pydoc helm-swoop
+               helm-themes highlight-indentation highlight-numbers
+               highlight-parentheses hindent hl-todo hlint-refactor htmlize
+               hungry-delete hy-mode hydra indent-guide intero ivy ivy-hydra
+               js-doc js2-mode js2-refactor json-mode json-reformat
+               json-snatcher julia-mode julia-repl key-chord link-hint
+               linum-relative live-py-mode livid-mode log4e lorem-ipsum lv
+               macrostep magit magit-gitflow magit-popup markdown-mode
+               markdown-toc mcp mcp-server-lib mmm-mode mmt move-text multi-term
+               multiple-cursors mwim neotree open-junk-file org-bullets
+               org-category-capture org-download org-mime org-plus-contrib
+               org-pomodoro org-present org-projectile orgit pacmacs paradox
+               parent-mode pcre2el persp-mode pip-requirements popwin pos-tip
+               powerline py-isort pyenv-mode pytest pythonic pyvenv
+               rainbow-delimiters request restart-emacs shell-pop simple-httpd
+               simpleclip skewer-mode smeargle smex spaceline spinner sudoku
+               swiper toc-org transient typit unfill use-package uuidgen
+               vi-tilde-fringe volatile-highlights web-beautify wgrep which-key
+               winum with-editor ws-butler xterm-color yaml-mode yapfify
+               yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
