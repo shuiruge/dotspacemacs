@@ -341,10 +341,10 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; package mirror
-  ;;(setq configuration-layer--elpa-archives
-  ;;  '(("melpa-cn" . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
-  ;;    ("org-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
-  ;;    ("gnu-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")))
+  (setq configuration-layer--elpa-archives
+    '(("melpa-cn" . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
+      ("org-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
+      ("gnu-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")))
 
   (setq dotspacemacs-scroll-bar-while-scrolling nil)
   )
@@ -435,15 +435,10 @@ you should place your code here."
       '(("filesystem" . (:command "npx"
                          :args ("-y" "@modelcontextprotocol/server-filesystem")
                          :roots ("/home/shuiruge/MCP/")))
-        ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-        ("qdrant" . (:url "http://localhost:8000/sse"))
-        ("graphlit" . (
-                        :command "npx"
-                        :args ("-y" "graphlit-mcp-server")
-                        :env (
-                              :GRAPHLIT_ORGANIZATION_ID "my-organization-id"
-                              :GRAPHLIT_ENVIRONMENT_ID "m-environment-id"
-                              :GRAPHLIT_JWT_SECRET "my-jwt-secret")))))
+        ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+  ;; start all servers after loading mcp
+  (with-eval-after-load 'mcp
+    (add-hook 'after-init-hook #'mcp-hub-start-all-server))
   ;; use mcp in gptel
   (require 'gptel-integrations)
   
@@ -548,7 +543,7 @@ This function is called at the very end of Spacemacs initialization."
                auto-highlight-symbol auto-yasnippet clean-aindent-mode cmm-mode
                coffee-mode column-enforce-mode company company-anaconda
                company-cabal company-ghc company-ghci company-quickhelp
-               company-statistics compat counsel counsel-projectile csv-mode
+               company-statistics counsel counsel-projectile csv-mode
                cython-mode dash dash-functional define-word diff-hl diminish
                dumb-jump elisp-slime-nav esh-help eshell-prompt-extras eshell-z
                eval-sexp-fu evil-anzu evil-args evil-ediff evil-escape
@@ -562,29 +557,28 @@ This function is called at the very end of Spacemacs initialization."
                ghc git-commit git-gutter git-gutter+ git-gutter-fringe
                git-gutter-fringe+ git-link git-messenger git-timemachine
                gitattributes-mode gitconfig-mode gitignore-mode gntp gnuplot
-               golden-ratio google-translate gptel-agent haskell-mode
-               haskell-snippets helm helm-ag helm-c-yasnippet helm-company
-               helm-core helm-descbinds helm-flx helm-gitignore helm-hoogle
-               helm-make helm-mode-manager helm-projectile helm-pydoc helm-swoop
-               helm-themes highlight-indentation highlight-numbers
-               highlight-parentheses hindent hl-todo hlint-refactor htmlize
-               hungry-delete hy-mode hydra indent-guide intero ivy ivy-hydra
-               js-doc js2-mode js2-refactor json-mode json-reformat
-               json-snatcher julia-mode julia-repl key-chord link-hint
-               linum-relative live-py-mode livid-mode log4e lorem-ipsum lv
-               macrostep magit magit-gitflow magit-popup markdown-mode
-               markdown-toc mcp mcp-server-lib mmm-mode mmt move-text multi-term
-               multiple-cursors mwim neotree open-junk-file org-bullets
-               org-category-capture org-download org-mime org-plus-contrib
-               org-pomodoro org-present org-projectile orgit pacmacs paradox
-               parent-mode pcre2el persp-mode pip-requirements popwin pos-tip
-               powerline py-isort pyenv-mode pytest pythonic pyvenv
-               rainbow-delimiters request restart-emacs shell-pop simple-httpd
-               simpleclip skewer-mode smeargle smex spaceline spinner sudoku
-               swiper toc-org transient typit unfill use-package uuidgen
-               vi-tilde-fringe volatile-highlights web-beautify wgrep which-key
-               winum with-editor ws-butler xterm-color yaml-mode yapfify
-               yasnippet)))
+               golden-ratio google-translate haskell-mode haskell-snippets helm
+               helm-ag helm-c-yasnippet helm-company helm-core helm-descbinds
+               helm-flx helm-gitignore helm-hoogle helm-make helm-mode-manager
+               helm-projectile helm-pydoc helm-swoop helm-themes
+               highlight-indentation highlight-numbers highlight-parentheses
+               hindent hl-todo hlint-refactor htmlize hungry-delete hy-mode
+               hydra indent-guide intero ivy ivy-hydra js-doc js2-mode
+               js2-refactor json-mode json-reformat json-snatcher julia-mode
+               julia-repl key-chord link-hint linum-relative live-py-mode
+               livid-mode log4e lorem-ipsum lv macrostep magit magit-gitflow
+               magit-popup markdown-mode markdown-toc mmm-mode mmt move-text
+               multi-term multiple-cursors mwim neotree open-junk-file
+               org-bullets org-category-capture org-download org-mime
+               org-plus-contrib org-pomodoro org-present org-projectile orgit
+               pacmacs paradox parent-mode pcre2el persp-mode pip-requirements
+               popwin pos-tip powerline py-isort pyenv-mode pytest pythonic
+               pyvenv rainbow-delimiters request restart-emacs shell-pop
+               simple-httpd simpleclip skewer-mode smeargle smex spaceline
+               spinner sudoku swiper tern toc-org transient typit unfill
+               use-package uuidgen vi-tilde-fringe volatile-highlights
+               web-beautify wgrep which-key winum with-editor ws-butler
+               xterm-color yaml-mode yapfify yasnippet)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
