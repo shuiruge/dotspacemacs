@@ -46,7 +46,7 @@ values."
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
-     ; ----------------------------------------------------------------
+                                        ; ----------------------------------------------------------------
      ivy
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
@@ -89,15 +89,16 @@ values."
      xclip
      gptel
      (mcp
-       :ensure t
-       :after gptel
-       :config (require 'mcp-hub)
-       :hook (after-init . mcp-hub-start-all-server))
+      :ensure t
+      :after gptel
+      :config (require 'mcp-hub)
+      :hook (after-init . mcp-hub-start-all-server))
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(company-tern exec-path-from-shell)
+   ;; we exclude winum and treemacs because of a bug. see: https://chat.deepseek.com/share/jyi8cw4h2br9ai500e
+   dotspacemacs-excluded-packages '(company-tern exec-path-from-shell winum treemacs)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
@@ -200,17 +201,6 @@ values."
    ;; In the terminal, these pairs are generally indistinguishable, so this only
    ;; works in the GUI. (default nil)
    dotspacemacs-distinguish-gui-tab nil
-   ;; If non nil `Y' is remapped to `y$' in Evil states. (default nil)
-   dotspacemacs-remap-Y-to-y$ nil
-   ;; If non-nil, the shift mappings `<' and `>' retain visual state if used
-   ;; there. (default t)
-   dotspacemacs-retain-visual-state-on-shift t
-   ;; If non-nil, J and K move lines up and down when in visual mode.
-   ;; (default nil)
-   dotspacemacs-visual-line-move-text nil
-   ;; If non nil, inverse the meaning of `g' in `:substitute' Evil ex-command.
-   ;; (default nil)
-   dotspacemacs-ex-substitute-global nil
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "Default"
    ;; If non nil the default layout name is displayed in the mode-line.
@@ -230,19 +220,6 @@ values."
    dotspacemacs-auto-save-file-location 'cache
    ;; Maximum number of rollback slots to keep in the cache. (default 5)
    dotspacemacs-max-rollback-slots 5
-   ;; If non nil, `helm' will try to minimize the space it uses. (default nil)
-   dotspacemacs-helm-resize nil
-   ;; if non nil, the helm header is hidden when there is only one source.
-   ;; (default nil)
-   dotspacemacs-helm-no-header nil
-   ;; define the position to display `helm', options are `bottom', `top',
-   ;; `left', or `right'. (default 'bottom)
-   dotspacemacs-helm-position 'bottom
-   ;; Controls fuzzy matching in helm. If set to `always', force fuzzy matching
-   ;; in all non-asynchronous sources. If set to `source', preserve individual
-   ;; source settings. Else, disable fuzzy matching in all sources.
-   ;; (default 'always)
-   dotspacemacs-helm-use-fuzzy 'always
    ;; If non nil the paste micro-state is enabled. When enabled pressing `p`
    ;; several times cycle between the kill ring content. (default nil)
    dotspacemacs-enable-paste-transient-state nil
@@ -318,9 +295,9 @@ values."
    ;; (default nil)
    dotspacemacs-persistent-server nil
    ;; List of search tool executable names. Spacemacs uses the first installed
-   ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
-   ;; (default '("ag" "pt" "ack" "grep"))
-   dotspacemacs-search-tools '("ag" "pt" "ack" "grep")
+   ;; tool of the list. Supported tools are `rg`, ''`ag', `ack' and `grep'.
+   ;; (default '("rg" "ag" "ack" "grep"))
+   dotspacemacs-search-tools '("rg" "ag" "ack" "grep")
    ;; The default package repository used if no explicit repository has been
    ;; specified with an installed package.
    ;; Not used for now. (default nil)
@@ -341,10 +318,10 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   ;; package mirror
-  (setq configuration-layer--elpa-archives
-    '(("melpa-cn" . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
-      ("org-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
-      ("gnu-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")))
+  ;;(setq configuration-layer--elpa-archives
+  ;;  '(("melpa-cn" . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/melpa/")
+  ;;    ("org-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/org/")
+  ;;    ("gnu-cn"   . "https://mirrors.sjtug.sjtu.edu.cn/emacs-elpa/gnu/")))
 
   (setq dotspacemacs-scroll-bar-while-scrolling nil)
   )
@@ -374,16 +351,16 @@ you should place your code here."
   (global-set-key (kbd "TAB") 'tab-to-tab-stop)
 
   ;; Eshell
-  ;(require 'dash)
-  ;(require 's)
+                                        ;(require 'dash)
+                                        ;(require 's)
 
   ;; IAST input method
   (quail-define-package
-    "iast-postfix" "UTF-8" "InR<" t
-    "Input method for Indic transliteration with postfix modifiers.
-  
+   "iast-postfix" "UTF-8" "InR<" t
+   "Input method for Indic transliteration with postfix modifiers.
+
        Long vowels are dealt with by doubling.
-  
+
        |                  | postfix | examples             |
        |------------------+---------+----------------------|
        | macron           |         | aa  -> ā    ee  -> ē |
@@ -391,32 +368,32 @@ you should place your code here."
        | diacritic above  | '       | s'  -> ś    n'  -> ṅ |
        | tilde            | ~       | n~  -> ñ             |
     "
-    nil t nil nil nil nil nil nil nil nil t)
-  
+   nil t nil nil nil nil nil nil nil nil t)
+
   (quail-define-rules
-    ;; long vowels
-    ("aa" "ā")
-    ("ii" "ī")
-    ("uu" "ū")
-    (".rr" "ṝ")
-    ("ee" "ē")
-    ("oo" "ō")
-  
-    ;; dot below
-    (".r" "ṛ")
-    (".l" "ḷ")
-    (".m" "ṃ")
-    (".h" "ḥ")
-    (".t" "ṭ")
-    (".d" "ḍ")
-    (".n" "ṇ")
-    (".s" "ṣ")
-    
-    ;; diacritic above
-    ("'n" "ṅ")
-    ("'s" "ś")
-    ("~n" "ñ")
-  )
+   ;; long vowels
+   ("aa" "ā")
+   ("ii" "ī")
+   ("uu" "ū")
+   (".rr" "ṝ")
+   ("ee" "ē")
+   ("oo" "ō")
+
+   ;; dot below
+   (".r" "ṛ")
+   (".l" "ḷ")
+   (".m" "ṃ")
+   (".h" "ḥ")
+   (".t" "ṭ")
+   (".d" "ḍ")
+   (".n" "ṇ")
+   (".s" "ṣ")
+
+   ;; diacritic above
+   ("'n" "ṅ")
+   ("'s" "ś")
+   ("~n" "ñ")
+   )
 
   ;; --- LLM ---
   ;; gptel
@@ -432,16 +409,16 @@ you should place your code here."
   (require 'opencode)
   ;; mcp
   (setq mcp-hub-servers
-      '(("filesystem" . (:command "npx"
-                         :args ("-y" "@modelcontextprotocol/server-filesystem")
-                         :roots ("/home/shuiruge/MCP/")))
-        ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
+        '(("filesystem" . (:command "npx"
+                                    :args ("-y" "@modelcontextprotocol/server-filesystem")
+                                    :roots ("/home/shuiruge/MCP/")))
+          ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))))
   ;; start all servers after loading mcp
   (with-eval-after-load 'mcp
     (add-hook 'after-init-hook #'mcp-hub-start-all-server))
   ;; use mcp in gptel
   (require 'gptel-integrations)
-  
+
   ;; ---------------------------------------------------------------------------
   ;; -------------------- REMAPPING THE ESC KEY WITH KEYCHORD ------------------
   (key-chord-mode 1)
@@ -501,15 +478,15 @@ you should place your code here."
   (key-chord-define-global "it"     'emmet-expand-line)  ; Insert tag.
 
   ;; Python
-  (add-hook 'python-mode-hook 
-    (lambda () (key-chord-define python-mode-map "pb" 'python-shell-send-buffer)))  ; Python run Buffer.
-  (add-hook 'python-mode-hook 
-    (lambda () (key-chord-define python-mode-map "pr" 'python-shell-send-region)))  ; Python run Region.
-  (add-hook 'python-mode-hook 
-    (lambda () (key-chord-define python-mode-map "ps" 'python-shell-send-statement)))  ; Python run Statement.
+  (add-hook 'python-mode-hook
+            (lambda () (key-chord-define python-mode-map "pb" 'python-shell-send-buffer)))  ; Python run Buffer.
+  (add-hook 'python-mode-hook
+            (lambda () (key-chord-define python-mode-map "pr" 'python-shell-send-region)))  ; Python run Region.
+  (add-hook 'python-mode-hook
+            (lambda () (key-chord-define python-mode-map "ps" 'python-shell-send-statement)))  ; Python run Statement.
 
   ;; ---------------------------------------------------------------------------
-)
+  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -532,57 +509,58 @@ you should place your code here."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(2048-game ac-ispell ace-jump-helm-line ace-link ace-window adaptive-wrap
-               aggressive-indent alert anaconda-mode auto-compile auto-complete
-               auto-highlight-symbol auto-yasnippet clean-aindent-mode cmm-mode
-               coffee-mode column-enforce-mode company company-anaconda
-               company-cabal company-ghc company-ghci company-quickhelp
-               company-statistics counsel counsel-projectile csv-mode
-               cython-mode dash dash-functional define-word diff-hl diminish
-               dumb-jump elisp-slime-nav esh-help eshell-prompt-extras eshell-z
-               eval-sexp-fu evil-anzu evil-args evil-ediff evil-escape
-               evil-exchange evil-iedit-state evil-indent-plus evil-lisp-state
-               evil-magit evil-matchit evil-mc evil-nerd-commenter evil-numbers
-               evil-search-highlight-persist evil-surround evil-tutor
-               evil-unimpaired evil-visual-mark-mode evil-visualstar
-               exec-path-from-shell expand-region eyebrowse fancy-battery
-               fill-column-indicator flx flx-ido flycheck flycheck-haskell
-               flycheck-julia flycheck-pos-tip fringe-helper fuzzy geiser gh-md
-               ghc git-commit git-gutter git-gutter+ git-gutter-fringe
-               git-gutter-fringe+ git-link git-messenger git-timemachine
-               gitattributes-mode gitconfig-mode gitignore-mode gntp gnuplot
-               golden-ratio google-translate haskell-mode haskell-snippets helm
-               helm-ag helm-c-yasnippet helm-company helm-core helm-descbinds
-               helm-flx helm-gitignore helm-hoogle helm-make helm-mode-manager
-               helm-projectile helm-pydoc helm-swoop helm-themes
-               highlight-indentation highlight-numbers highlight-parentheses
-               hindent hl-todo hlint-refactor htmlize hungry-delete hy-mode
-               hydra indent-guide intero ivy ivy-hydra js-doc js2-mode
-               js2-refactor json-mode json-reformat json-snatcher julia-mode
-               julia-repl key-chord link-hint linum-relative live-py-mode
-               livid-mode log4e lorem-ipsum lv macrostep magit magit-gitflow
-               magit-popup markdown-mode markdown-toc mmm-mode mmt move-text
-               multi-term multiple-cursors mwim neotree open-junk-file
-               org-bullets org-category-capture org-download org-mime
-               org-plus-contrib org-pomodoro org-present org-projectile orgit
-               pacmacs paradox parent-mode pcre2el persp-mode pip-requirements
-               popwin pos-tip powerline py-isort pyenv-mode pytest pythonic
-               pyvenv rainbow-delimiters request restart-emacs shell-pop
-               simple-httpd simpleclip skewer-mode smeargle smex spaceline
-               spinner sudoku swiper tern toc-org transient typit unfill
-               use-package uuidgen vi-tilde-fringe volatile-highlights
-               web-beautify wgrep which-key winum with-editor ws-butler
-               xterm-color yaml-mode yapfify yasnippet)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
-)
+  (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(package-selected-packages
+     '(2048-game ac-ispell ace-jump-helm-line ace-link ace-window adaptive-wrap
+                 aggressive-indent alert anaconda-mode auto-compile auto-complete
+                 auto-highlight-symbol auto-yasnippet clean-aindent-mode cmm-mode
+                 coffee-mode column-enforce-mode company company-anaconda
+                 company-cabal company-ghc company-ghci company-quickhelp
+                 company-statistics counsel counsel-projectile csv-mode
+                 cython-mode dash dash-functional define-word diff-hl diminish
+                 dumb-jump elisp-slime-nav esh-help eshell-prompt-extras eshell-z
+                 eval-sexp-fu evil-anzu evil-args evil-ediff evil-escape
+                 evil-exchange evil-iedit-state evil-indent-plus evil-lisp-state
+                 evil-magit evil-matchit evil-mc evil-nerd-commenter evil-numbers
+                 evil-search-highlight-persist evil-surround evil-tutor
+                 evil-unimpaired evil-visual-mark-mode evil-visualstar
+                 exec-path-from-shell expand-region eyebrowse fancy-battery
+                 fill-column-indicator flx flx-ido flycheck flycheck-haskell
+                 flycheck-julia flycheck-pos-tip fringe-helper fuzzy geiser gh-md
+                 ghc git-commit git-gutter git-gutter+ git-gutter-fringe
+                 git-gutter-fringe+ git-link git-messenger git-timemachine
+                 gitattributes-mode gitconfig-mode gitignore-mode gntp gnuplot
+                 golden-ratio google-translate haskell-mode haskell-snippets helm
+                 helm-ag helm-c-yasnippet helm-company helm-core helm-descbinds
+                 helm-flx helm-gitignore helm-hoogle helm-make helm-mode-manager
+                 helm-projectile helm-pydoc helm-swoop helm-themes
+                 highlight-indentation highlight-numbers highlight-parentheses
+                 hindent hl-todo hlint-refactor htmlize hungry-delete hy-mode
+                 hydra indent-guide intero ivy ivy-hydra js-doc js2-mode
+                 js2-refactor json-mode json-reformat json-snatcher julia-mode
+                 julia-repl key-chord link-hint linum-relative live-py-mode
+                 livid-mode log4e lorem-ipsum lv macrostep magit magit-gitflow
+                 magit-popup markdown-mode markdown-toc mmm-mode mmt move-text
+                 multi-term multiple-cursors mwim neotree open-junk-file
+                 org-bullets org-category-capture org-download org-mime
+                 org-plus-contrib org-pomodoro org-present org-projectile orgit
+                 pacmacs paradox parent-mode pcre2el persp-mode pip-requirements
+                 popwin pos-tip powerline py-isort pyenv-mode pytest pythonic
+                 pyvenv rainbow-delimiters request restart-emacs shell-pop
+                 simple-httpd simpleclip skewer-mode smeargle smex spaceline
+                 spinner sudoku swiper tern toc-org transient treemacs
+                 treemacs-evil treemacs-icons-dired typit unfill use-package
+                 uuidgen vi-tilde-fringe volatile-highlights web-beautify wgrep
+                 which-key winum with-editor ws-butler xterm-color yaml-mode
+                 yapfify yasnippet)))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+  )
