@@ -38,7 +38,6 @@ values."
            web-mode-css-indent-offset 2
            web-mode-sql-indent-offset 2
            )
-     ruby
      javascript
      csv
      yaml
@@ -47,7 +46,6 @@ values."
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
                                         ; ----------------------------------------------------------------
-     ivy
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip t
@@ -60,7 +58,8 @@ values."
      emacs-lisp
      git
      markdown
-     latex
+     (latex :variables
+            latex-refresh-preview t)
      org
      (shell :variables
             shell-default-height 30
@@ -68,12 +67,9 @@ values."
      version-control
      python
      scheme
-     haskell
-     ;;agda
      nixos
      (c-c++ :variables
             c-c++-enable-clang-support t)
-     julia
      (chinese :variables
               chinese-use-fcitx5 t
               chinese-enable-fcitx t)
@@ -93,6 +89,9 @@ values."
       :after gptel
       :config (require 'mcp-hub)
       :hook (after-init . mcp-hub-start-all-server))
+     plz  ;; for opencode.
+     plz-media-type  ;; for opencode.
+     plz-event-source  ;; for opencode.
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -335,7 +334,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
   ;; wrap lines by default
-  (global-visual-line-mode 1)
+  ;;(global-visual-line-mode 1)
 
   ;; python encoding (for Windows)
   (setenv "PYTHONIOENCODING" "utf-8")
@@ -403,10 +402,6 @@ you should place your code here."
           :stream t
           :models '("gemma4:e2b")))
   (setq gptel-model "gemma4:e2b")
-  ;; opencode
-  ;;(load-file "~/.emacs.d/private/opencode/opencode.el")
-  (load-file "~/Codes/opencode.el/opencode.el")
-  (require 'opencode)
   ;; mcp
   (setq mcp-hub-servers
         '(("filesystem" . (:command "npx"
@@ -418,6 +413,10 @@ you should place your code here."
     (add-hook 'after-init-hook #'mcp-hub-start-all-server))
   ;; use mcp in gptel
   (require 'gptel-integrations)
+  ;; opencode
+  ;; first execute: git clone https://codeberg.org/sczi/opencode.el ~/.emacs.d/private/opencode
+  (add-to-list 'load-path "~/.emacs.d/private/opencode")
+  (require 'opencode)
 
   ;; ---------------------------------------------------------------------------
   ;; -------------------- REMAPPING THE ESC KEY WITH KEYCHORD ------------------
@@ -545,22 +544,24 @@ This function is called at the very end of Spacemacs initialization."
                  julia-repl key-chord link-hint linum-relative live-py-mode
                  livid-mode log4e lorem-ipsum lv macrostep magit magit-gitflow
                  magit-popup markdown-mode markdown-toc mmm-mode mmt move-text
-                 multi-term multiple-cursors mwim neotree open-junk-file
+                 multi-term multiple-cursors mwim neotree open-junk-file opencode
                  org-bullets org-category-capture org-download org-mime
                  org-plus-contrib org-pomodoro org-present org-projectile orgit
                  pacmacs paradox parent-mode pcre2el persp-mode pip-requirements
                  popwin pos-tip powerline py-isort pyenv-mode pytest pythonic
                  pyvenv rainbow-delimiters request restart-emacs shell-pop
                  simple-httpd simpleclip skewer-mode smeargle smex spaceline
-                 spinner sudoku swiper tern toc-org transient treemacs
-                 treemacs-evil treemacs-icons-dired typit unfill use-package
-                 uuidgen vi-tilde-fringe volatile-highlights web-beautify wgrep
-                 which-key winum with-editor ws-butler xterm-color yaml-mode
-                 yapfify yasnippet)))
+                 spinner sudoku swiper tern toc-org transient typit unfill
+                 use-package uuidgen vi-tilde-fringe volatile-highlights
+                 web-beautify wgrep which-key winum with-editor ws-butler
+                 xterm-color yaml-mode yapfify yasnippet))
+   '(package-vc-selected-packages
+     '((opencode :url "https://codeberg.org/sczi/opencode.el.git"))))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-   '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
+   '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t)
+   '(preview-reference-face ((t (:foreground "LightGoldenrodYellow" :background "unspecified")))))
   )
