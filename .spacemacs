@@ -30,7 +30,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(sql
      (html :variables
            indent-tabs-mode nil
            web-mode-markup-indent-offset 2
@@ -58,8 +58,9 @@ values."
      emacs-lisp
      git
      markdown
+     pdf
      (latex :variables
-            latex-refresh-preview t)
+            latex-view-pdf-in-split-window t)
      org
      (shell :variables
             shell-default-height 30
@@ -73,7 +74,6 @@ values."
      (chinese :variables
               chinese-use-fcitx5 t
               chinese-enable-fcitx t)
-     pdf
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -350,8 +350,8 @@ you should place your code here."
   (global-set-key (kbd "TAB") 'tab-to-tab-stop)
 
   ;; Eshell
-                                        ;(require 'dash)
-                                        ;(require 's)
+  (require 'dash)
+  (require 's)
 
   ;; IAST input method
   (quail-define-package
@@ -413,10 +413,9 @@ you should place your code here."
     (add-hook 'after-init-hook #'mcp-hub-start-all-server))
   ;; use mcp in gptel
   (require 'gptel-integrations)
-  ;; opencode
-  ;; first execute: git clone https://codeberg.org/sczi/opencode.el ~/.emacs.d/private/opencode
-  (add-to-list 'load-path "~/.emacs.d/private/opencode")
-  (require 'opencode)
+
+  ;; enable web-mode in nxml-mode
+  (add-hook 'nxml-mode-hook 'web-mode)
 
   ;; ---------------------------------------------------------------------------
   ;; -------------------- REMAPPING THE ESC KEY WITH KEYCHORD ------------------
